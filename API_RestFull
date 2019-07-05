@@ -1,0 +1,78 @@
+<?php
+
+//Codigo usando o coceito de Restfull e API.
+//Vai dar um erro de Coneção ao porque esta sendo acessado localhost e sem a criação do Banco e da tabela.
+	require '..\\local\Prova\API\Slim\Slim.php';
+	\Slim\Slim::registerAutoloader();
+	$app = new \Slim\Slim();
+	$app->response()->header('Content-Type', 'application/json;charset=utf-8');
+
+	$app->get('/', function () 
+	{
+		echo "Slimlivros";
+    }								
+		$app->get('/title','gettitle');
+		$app->run();
+
+function getConn()
+	{
+		return new PDO('mysql:host=localhost;dbname=SlimProdutos','root','',array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+
+	}
+
+		function getlivros()
+		{
+			$stmt = getConn()->query("SELECT * FROM Livros");
+			$livros = $stmt->fetchAll(PDO::FETCH_OBJ);
+			echo "{title:".json_encode($title)."}";
+		}
+
+			$app->post('/autor','addautor');
+
+//Esta Função vou adicionar livros
+	function addlivros()
+		{
+			$request = \Slim\Slim::getInstance()->request();
+			$livros = json_decode($request->getBody());
+			$sql = "INSERT INTO livros (title,autor,edicao,idlivros) values (:title,:autor,:edicao,:idlivros) ";
+			$conn = getConn();
+			$stmt = $conn->prepare($sql);
+			$stmt->bindParam("Title",$livros->nome);
+			$stmt->bindParam("Autor",$livros->preco);
+			$stmt->bindParam("Edição",$livros->dataInclusao);
+			$stmt->bindParam("idLivros",$livros->idlivros);
+			$stmt->execute();
+			$livros->id = $conn->lastInsertId();
+				echo json_encode($livros);
+		}
+//Listar os Livros
+				$app->get('/livros/:id','getlivros');
+				function getlivros($id)
+					{
+						$conn = getConn();
+						$sql = "SELECT * FROM livros WHERE id=:id";
+						$stmt = $conn->prepare($sql);
+						$stmt->bindParam("id",$id);
+						$stmt->execute();
+						$livros = $stmt->fetchObject();
+						echo json_encode($livros);
+					}
+
+	
+
+
+//Apagar os livros da tabela
+
+	$app->delete('/livros/:id','deletelivros');
+	function deletelivros($id)
+		{
+			$sql = "DELETE FROM livros WHERE id=:id";
+			$conn = getConn();
+			$stmt = $conn->prepare($sql);
+			$stmt->bindParam("id",$id);
+			$stmt->execute();
+			echo "{'message':'Produto apagado'}";
+		}
+
+
+?>
