@@ -1,0 +1,8 @@
+<?php
+
+interface iCrawler
+	{	
+		public function getbusca($url);
+    }
+
+?>
