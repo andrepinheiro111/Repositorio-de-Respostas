@@ -1,0 +1,25 @@
+<?php
+
+require_once '//localhost/Prova/Crawler/Crawler.php';
+
+	Class capitura
+	{
+		public function __construct()
+		{
+			$this->getcapitura('https://www.globo.com/');
+		}
+			public function getcapitura($url)
+				{
+					$html = file_get_html($url);
+					print_r($html);
+					preg_match_all('/<p class=\"pd-5 bold\">[.*?]<\/p\>/',$html,$result);
+					echo json_decode($result[0][0]);
+					
+					
+				}
+		
+	}
+
+	$c = new capitura();
+
+?>
