@@ -1,0 +1,20 @@
+<?php
+//Função Recursiva em PHP
+function recursion($x,$y,$z)
+{
+	  $Dois = min($x,$y,$z);
+	  $Tres = min($x,$y,$z);
+	  $Dez = min($x,$y,$z);
+	    if(($Dois%$Tres == 0)&&($Tres%$Dez == 0)&& ($Dois%$Dez == 0))
+      {
+		    return $Tres;
+	    }
+      else
+        {
+		      return recursion($Tres,($Dois%$Tres%$Dez));
+	      }
+}
+		echo "O nemor numero inteiro é:";
+		echo recursion(2,3,10); 
+
+?>
