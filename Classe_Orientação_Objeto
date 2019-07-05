@@ -1,0 +1,66 @@
+<?php
+
+    Class Calculate
+    {
+        private $NumberOne;
+        private $NumberTwo;
+        private $NumberThree;
+
+        public function getNumberOne()
+        {
+            return $this->NumberOne;
+        }
+
+
+        public function setNumberOne($NumberOne)
+        {
+            $this->NumberOne = $NumberOne;
+        }
+
+
+        public function getNumberTwo()
+        {
+            return $this->NumberTwo;
+        }
+
+
+        public function setNumberTwo($NumberTwo)
+        {
+            $this->NumberTwo = $NumberTwo;
+        }
+
+
+        public function getNumberThree()
+        {
+            return $this->NumberThree;
+        }
+
+
+        public function setNumberThree($NumberThree)
+        {
+            $this->NumberThree = $NumberThree;
+        }
+
+        public function Multiplication()
+        {
+            $Result = 0;
+            $Result = $this->getNumberOne()* $this->getNumberTwo()*$this->getNumberThree();
+            return $Result;
+        }
+
+        public function PrintValue()
+        {
+            echo 'O Valor da multiplicação é: '.$this->Multiplication();
+        }
+
+    }
+
+    $obj = new Calculate();
+    //Iniciando os valores numericos
+    $obj->setNumberOne(5);
+    $obj->setNumberTwo(8);
+    $obj->setNumberThree(10);
+
+    //Imprimi o valor
+    $obj->PrintValue();  
+?>
