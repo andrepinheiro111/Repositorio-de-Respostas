@@ -71,7 +71,7 @@ function getConn()
 			$stmt = $conn->prepare($sql);
 			$stmt->bindParam("id",$id);
 			$stmt->execute();
-			echo "{'message':'Produto apagado'}";
+			echo "('message':'Livros apagado')";
 		}
 
 
