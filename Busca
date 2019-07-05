@@ -1,0 +1,44 @@
+<?php
+
+require_once('Crawler.php');
+
+	Class globo implements iCrawler	
+	{
+		public function __construct()
+		{
+			$this->getnoticias('https://www.globo.com/');
+		}
+		public function getnoticias($url)
+		{
+			$html= file_get_html($url);
+			preg_match_all('/\<h1 class=\"entry-title\"\>[.*?]\<\/h1\>/is',$html,$matches);
+			for($i=0; $i<sizeof($matches[1]);$i++)
+			{
+					$link = $matches[1][$i];
+					preg_match_all('/<a href="(.*)">/', $link,$result);
+					$a = $result[1][0];
+				}
+				$x = explode("<br>",$a);
+				for($i=0; $i<sizeof($x);$i++)
+					{
+					$c = explode("",$x[$i]);
+					$plainlink = $c[0];
+					}
+					$plainlink = explode('<>br',$plainlink);
+					for($i=0;$i<sizeof($plainlink)-2;$i++)
+					{
+						$link = $plainlink[$i];
+						$content = file_get_html($link);
+						preg_match_all('/<h1 class=\"entry-title\"\>(.*?)\</h1\>/',$content,$title);
+						preg_match_all('/\<div class=\"entry-content\"\>(.*?)\</div\>/',$content,$article);
+						preg_match('/src"([""]*)"/i',$article[0][0], $array);
+						$imagem = $array[1];
+						$noticia = strip_tags($article[0][0]);
+					    $titulo = strip_tags($title[0][0]);
+					}
+		}
+		
+	}
+	
+		$c = new globo();
+?>
